@@ -43,9 +43,10 @@ def send_posts(url: str, fields: dict):
 			user_agent = ua.random
 			headers = {"User-Agent": user_agent}
 
-			response = requests.post(url, data=data, headers=headers)
+			response = requests.post(url, json=data, headers=headers)
 			# Show fields only if they are present
 
+			# print(f"{Back.YELLOW}{data}{Back.RESET}")
 
 			if ("username" in fields.keys()):
 				logger.info(f'{Fore.MAGENTA}Username{Fore.RESET} ({Fore.LIGHTBLACK_EX}{fields["username"]}{Fore.RESET}): {username}')
@@ -59,7 +60,7 @@ def send_posts(url: str, fields: dict):
 	
 			if response.status_code != 200:
 				st = random.uniform(1, 5)
-				logger.warning(f"Status code {response.status_code} sleeping for {st}")
+				logger.warning(f"{Back.CYAN}Status code {Style.BRIGHT}{response.status_code}{Style.RESET} sleeping for {Style.BRIGHT}{st}{Style.RESET}")
 				time.sleep(st)  # Random delay between 1 and 5 seconds
 
 		except requests.RequestException as e:
@@ -71,11 +72,6 @@ def send_posts(url: str, fields: dict):
 			time.sleep(5)  # Wait for 5 seconds before retrying
 
 
-# Whoever is reading this, here is some info:
-# This modification is only tested in kali linux 2024.2.
-# Styled the logged info.
-# It's not very optimized.
-# 
 # TODO:
 # 		- Add more fields like birtdays, phone numbers, first name, last name, ...
 # 		- Add a cli utility with typer (it's already implemented just need to add flags, try: python3 phishkiller.py --help)
